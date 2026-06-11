@@ -1,7 +1,8 @@
 from typing import Optional
+import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
-from src.models.predictor import predict_from_json
+from src.models.predictor import load_model, validate_input
 
 app = FastAPI(title="EdTech Dropout Prediction API")
 
@@ -41,9 +42,18 @@ def health():
 @app.post("/predict")
 def predict(data: StudentInput):
     payload = data.model_dump()
-    prediction = predict_from_json(payload)
+    payload = validate_input(payload)
+
+    model, preprocessor = load_model()
+
+    X = pd.DataFrame([payload])
+    X_processed = preprocessor.transform(X)
+
+    prediction = int(model.predict(X_processed)[0])
+
+    interpretation = "Risque de décrochage élevé" if prediction == 1 else "Risque faible"
 
     return {
-        "prediction": int(prediction),
-        "interpretation": "Risque de décrochage élevé" if prediction == 1 else "Risque faible"
+        "prediction": prediction,
+        "interpretation": interpretation
     }

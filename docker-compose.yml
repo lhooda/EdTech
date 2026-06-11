@@ -64,7 +64,7 @@ services:
       dockerfile: Dockerfile.ui
     container_name: edtech_ui
     environment:
-      - API_URL=http://api:8000
+      -AAPI_URL: http://api:8000/predict
     ports:
       - "8501:8501"
     volumes:
