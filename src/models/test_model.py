@@ -13,7 +13,7 @@ with open("models/best_model.pkl", "rb") as f:
 with open("models/model_columns.pkl", "rb") as f:
     preprocessor = pickle.load(f)
 
-print("✅ Modèle et preprocessor chargés.")
+print(" Modèle et preprocessor chargés.")
 
 
 # ============================
@@ -42,7 +42,7 @@ example = {
     "engagement_score": 593.2
 }
 
-print("📌 Exemple chargé.")
+print(" Exemple chargé.")
 
 
 # ============================
@@ -59,4 +59,4 @@ def predict_example(example_dict):
 # 5) Lancer la prédiction
 # ============================
 result = predict_example(example)
-print("🎯 Prédiction du modèle :", result)
+print(" Prédiction du modèle :", result)
